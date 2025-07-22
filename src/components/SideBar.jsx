@@ -12,11 +12,10 @@ const SideBar = () => {
     <div className="flex flex-col gap-4">
       {items &&
         items.map((item) => (
-          <Link className="px-3 py-2 bg-blue-200" to={`admin/${item.path}`}>
+          <Link key={item.path} className="px-3 py-2 bg-blue-200" to={`admin/${item.path}`}>
             <span className="text-white">{item.label}</span>
           </Link>
         ))}
-      ;
     </div>
   );
 };

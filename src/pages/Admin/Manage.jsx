@@ -1,27 +1,50 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Manage = () => {
-  const employees = [
-    { id: 1, name: 'Employee 1', email: 'thanhvinh@gmail.com', status: 'Active' },
-    { id: 2, name: 'Employee 2', email: '123@gmail.com', status: 'Active' },
-  ];
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-  const handleDelete = (employeeId) => {
+const Manage = () => {
+  // const employees = [
+  //   { id: 1, name: 'Employee 1', email: 'thanhvinh@gmail.com', status: 'Active' },
+  //   { id: 2, name: 'Employee 2', email: '123@gmail.com', status: 'Active' },
+  // ];
+
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
     try {
-      const response = axios.delete(`${serverUrl}/user/${employeeId}`, {
+      axios
+        .get(`${serverUrl}/users`, {
+          headers: {
+            'Content-type': 'application/json',
+          },
+        })
+        .then((res) => {
+          const result = res.data;
+          console.log('response', result.data);
+          setEmployees(result.data);
+        })
+        .catch((error) => {
+          console.error(`Error: ${error.message}`);
+        })
+        .finally(setLoading(false));
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+    }
+  }, []);
+
+  const handleDelete = async (employeeId) => {
+    try {
+      const response = await axios.delete(`${serverUrl}/user/${employeeId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Error');
-      }
-
-      const result = response.json();
-      console.log('Delete', result);
+      console.log('Delete successful', response);
+      setEmployees(employees.filter((employee) => employee.id !== employeeId));
     } catch (error) {
       console.error('Error when connect to server');
     }
@@ -39,25 +62,28 @@ const Manage = () => {
             </Link>
           </div>
         </div>
+        {loading && <p className="text-green-500">Get list users...</p>}
         <table className="min-w-full bg-white border-collapse mt-8">
           <thead>
             <tr className="bg-gray-100 border-b border-gray-300">
               <th className="px-4 py-2  text-gray-600 align-middle">Employee Name</th>
               <th className="px-4 py-2 text-gray-600 align-middle">Email</th>
-              <th className="px-4 py-2 text-gray-600 align-middle">Status</th>
+              <th className="px-4 py-2 text-gray-600 align-middle">Role</th>
+              <th className="px-4 py-2 text-gray-600 align-middle">Phone</th>
               <th className="px-4 py-2 text-gray-600 align-middle">Action</th>
             </tr>
           </thead>
           <tbody>
             {employees.map((employee) => (
               <tr key={employee.id} className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="py-2 px-4 align-middle">{employee.name}</td>
-                <td className="py-2 px-4 align-middle">{employee.email}</td>
+                <td className="py-2 px-4 align-middle">{employee.userName || 'Thanh Vinh'}</td>
+                <td className="py-2 px-4 align-middle">{employee.email ?? 'Default email'}</td>
                 <td className="py-2 px-4 align-middle">
                   <span className="rounded-lg bg-green-300 px-4 py-2 text-white">
                     {employee.status}
                   </span>
                 </td>
+                <td className="py-2 px-4 align-middle">{employee.phone ?? 'Default phone'}</td>
                 <td className="py-2 px-4 flex space-x-4 items-center ml-14">
                   <Link
                     to={`/admin/edit/${employee.id}`}
@@ -65,13 +91,15 @@ const Manage = () => {
                   >
                     <span className="text-white px-3">Edit</span>
                   </Link>
-                  <button onClick={handleDelete} className="button-danger text-white px-3 rounded">
+                  <button
+                    onClick={() => handleDelete(employee.id)}
+                    className="button-danger text-white px-3 rounded"
+                  >
                     Delete
                   </button>
                 </td>
               </tr>
             ))}
-            ;
           </tbody>
         </table>
       </div>
