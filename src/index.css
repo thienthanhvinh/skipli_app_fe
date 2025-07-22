@@ -13,6 +13,36 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-primary: #1d4ed8;
+  --color-secondary: #64748b;
+  --color-accent: #10b981;
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-background: #151b21;
+  --color-background2: #13161c;
+  --color-light: #eeeeee;
+  --color-light2: #adb0b1;
+  --color-primary1: #4f43f5;
+  --color-primary2: #504b9b;
+  --color-dark1: #393e46;
+  --color-dark2: #2d3137;
+}
+
+.button-primary {
+  background-color: #1d4ed8;
+}
+.button-danger {
+  background-color: #ef4444;
+}
+
+.button-main {
+  background-color: #f59e0b;
+}
+
+.button-success {
+  background-color: #10b981;
 }
 
 a {
