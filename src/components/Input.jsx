@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({ type, placeholder, name, label, isLabel, onChange, className }) => {
+const Input = ({ type, placeholder, name, label, isLabel, onChange, className, value }) => {
   return (
     <div className="flex flex-col gap-1">
       {isLabel && (
@@ -13,6 +13,7 @@ const Input = ({ type, placeholder, name, label, isLabel, onChange, className })
         name={name}
         placeholder={placeholder}
         onChange={onChange}
+        value={value}
         className={`border border-gray-300 px-3 py-2 focus:outline-orange-300 rounded-lg transition-all duration-500 ${className}`}
       />
     </div>

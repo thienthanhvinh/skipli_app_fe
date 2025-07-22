@@ -80,7 +80,7 @@ const Manage = () => {
                 <td className="py-2 px-4 align-middle">{employee.email ?? 'Default email'}</td>
                 <td className="py-2 px-4 align-middle">
                   <span className="rounded-lg bg-green-300 px-4 py-2 text-white">
-                    {employee.status}
+                    {employee.role || 'Admin'}
                   </span>
                 </td>
                 <td className="py-2 px-4 align-middle">{employee.phone ?? 'Default phone'}</td>
