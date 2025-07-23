@@ -26,6 +26,7 @@ const SignIn = () => {
       );
 
       const result = response.data;
+      console.log('Result', response.data);
       if (!result.success) {
         toast.error(result.message || 'Login failed');
         return;

@@ -6,11 +6,6 @@ const serverUrl = import.meta.env.VITE_SERVER_URL;
 const token = localStorage.getItem('token');
 
 const Manage = () => {
-  // const employees = [
-  //   { id: 1, name: 'Employee 1', email: 'thanhvinh@gmail.com', status: 'Active' },
-  //   { id: 2, name: 'Employee 2', email: '123@gmail.com', status: 'Active' },
-  // ];
-
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
 
