@@ -8,7 +8,18 @@ import { toast, ToastContainer } from 'react-toastify';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 const SignUp = () => {
-  const [phone, setPhone] = useState('');
+  const [data, setData] = useState({
+    userName: '',
+    phone: '',
+    email: '',
+  });
+
+  const handleChange = (e) => {
+    setData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const navigate = useNavigate();
 
@@ -18,18 +29,15 @@ const SignUp = () => {
 
   const handleSendPhone = async (e) => {
     e.preventDefault();
+
     try {
       await axios
-        .post(
-          `${serverUrl}/register`,
-          { phone },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          }
-        )
+        .post(`${serverUrl}/register`, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        })
         .then((response) => {
           console.log(response.data);
           const result = response.data;
@@ -40,7 +48,7 @@ const SignUp = () => {
           }, 2000);
         })
         .catch((error) => {
-          console.error(error);
+          console.error(error.message);
           toast.error('Đã xảy ra lỗi!');
         });
     } catch (error) {
@@ -70,11 +78,11 @@ const SignUp = () => {
         <div className="flex flex-col gap-6 mt-6 max-w-1/2 mx-auto">
           <Input
             type="text"
-            name="phoneNumber"
+            name="phone"
             required
             placeholder="Your Phone Number"
             className="py-3 px-6"
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handleChange}
           />
 
           <Input
@@ -83,7 +91,7 @@ const SignUp = () => {
             required
             placeholder="Your Name"
             className="py-3 px-6"
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handleChange}
           />
 
           <Input
@@ -92,7 +100,7 @@ const SignUp = () => {
             required
             placeholder="Your Email"
             className="py-3 px-6"
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handleChange}
           />
 
           <Button type="submit" text="Next" secondary />
