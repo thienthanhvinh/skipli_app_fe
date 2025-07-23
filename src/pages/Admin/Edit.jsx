@@ -14,6 +14,7 @@ const Create = () => {
     userName: '',
     email: '',
     phone: '',
+    role: '',
   });
 
   const { id } = useParams();
@@ -36,6 +37,7 @@ const Create = () => {
             userName: user.userName ?? '',
             email: user.email ?? '',
             phone: user.phone,
+            role: user.role ?? 'no role',
           });
         })
         .catch((error) => {
@@ -125,6 +127,17 @@ const Create = () => {
             placeholder="Enter employee phone number"
             name="phone"
             value={data?.phone}
+            className="focus:border-blue-400 transition-all duration-200 text-sm px-4 w-full"
+            onChange={handleChange}
+          />
+
+          <Input
+            type="text"
+            isLabel
+            label="Role"
+            placeholder="Enter employee role"
+            name="role"
+            value={data?.role}
             className="focus:border-blue-400 transition-all duration-200 text-sm px-4 w-full"
             onChange={handleChange}
           />

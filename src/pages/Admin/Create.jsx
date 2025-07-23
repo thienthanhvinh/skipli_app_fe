@@ -11,6 +11,7 @@ const Create = () => {
     userName: '',
     email: '',
     phone: '',
+    role: '',
   });
 
   const handleChange = (e) => {
@@ -78,6 +79,15 @@ const Create = () => {
             label="Phone Number"
             placeholder="Enter employee phoen number"
             name="phone"
+            className="focus:border-blue-400 transition-all duration-200 text-sm px-4 w-full"
+            onChange={handleChange}
+          />
+          <Input
+            type="text"
+            isLabel
+            label="Role"
+            placeholder="Enter role"
+            name="role"
             className="focus:border-blue-400 transition-all duration-200 text-sm px-4 w-full"
             onChange={handleChange}
           />
