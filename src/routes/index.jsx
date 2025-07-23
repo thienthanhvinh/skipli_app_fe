@@ -7,12 +7,21 @@ import Unauthorized from '../pages/Unauthorized';
 import ProtectedRoutes from '../components/ProtectedRoutes';
 
 const router = createBrowserRouter([
-  ...publicRoutes,
-
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: publicRoutes,
+  },
   {
     path: '/admin',
-    element: <ProtectedRoutes allowedRoles={['admin', 'owner']} />,
-    children: adminRoutes,
+    element: <AdminLayout />,
+    children: [
+      {
+        path: '',
+        element: <ProtectedRoutes allowedRoles={['admin', 'owner']} />,
+        children: adminRoutes,
+      },
+    ],
   },
 
   {

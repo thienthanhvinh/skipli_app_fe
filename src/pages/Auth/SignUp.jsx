@@ -31,29 +31,23 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      await axios
-        .post(`${serverUrl}/register`, data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log(response.data);
-          const result = response.data;
-          const url = result.data.url;
-          toast.success('Please wait, we are redirect to verify page for you!');
-          setTimeout(() => {
-            handleRedirect(url);
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error(error.message);
-          toast.error('Đã xảy ra lỗi!');
-        });
+      const response = await axios.post(`${serverUrl}/register`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+
+      const result = response.data;
+      const url = result.data.url;
+      toast.success('Please wait, we are redirect to verify page for you!');
+      setTimeout(() => {
+        handleRedirect(url);
+      }, 2000);
     } catch (error) {
+      const msg = error.response?.data?.message || 'Error';
       console.error(error.message);
-      toast.error('Đã xảy ra lỗi!');
+      toast.error(msg);
     }
   };
 

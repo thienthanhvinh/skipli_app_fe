@@ -37,6 +37,7 @@ const Manage = () => {
       const response = await axios.delete(`${serverUrl}/user/${employeeId}`, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
 
