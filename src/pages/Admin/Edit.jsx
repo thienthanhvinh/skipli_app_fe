@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-const token = localStorage.getItem('token');
 const serverUrl = import.meta.env.VITE_SERVER_URL;
+const token = localStorage.getItem('token');
 
 const Create = () => {
   const [loading, setLoading] = useState(false);
@@ -27,6 +27,7 @@ const Create = () => {
         .get(`${serverUrl}/user/${id}`, {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
+const token = localStorage.getItem('token');
 
 const Manage = () => {
   // const employees = [
@@ -19,6 +20,7 @@ const Manage = () => {
         .get(`${serverUrl}/users`, {
           headers: {
             'Content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {

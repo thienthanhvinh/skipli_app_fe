@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
+const token = localStorage.getItem('token');
 
 const Create = () => {
   const [data, setData] = useState({
@@ -27,6 +28,7 @@ const Create = () => {
       const response = await axios.post(`${serverUrl}/create`, data, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
       const result = response.data;

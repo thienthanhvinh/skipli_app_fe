@@ -1,6 +1,7 @@
 import SignIn from '../pages/Auth/SignIn';
 import SignUp from '../pages/Auth/SignUp';
 import Verify from '../pages/Auth/Verify';
+import Home from '../pages/Home/Home';
 
 export const publicRoutes = [
   {
@@ -18,5 +19,9 @@ export const publicRoutes = [
   {
     path: 'verify',
     element: <Verify />,
+  },
+  {
+    path: 'home',
+    element: <Home />,
   },
 ];

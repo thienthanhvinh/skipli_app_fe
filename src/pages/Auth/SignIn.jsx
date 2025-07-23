@@ -14,33 +14,27 @@ const SignIn = () => {
   const handleSendPhone = async (e) => {
     e.preventDefault();
     try {
-      await axios
-        .post(
-          `${serverUrl}/login`,
-          { phone },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            withCrentials: true,
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-          const result = response.data;
-          if (result.success === false) {
-            toast.error(`${result.message}`);
-            return;
-          }
+      const response = await axios.post(
+        `${serverUrl}/login`,
+        { phone },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
 
-          setTimeout(() => {
-            navigate(`/${result.url}`);
-          }, 1000);
-        })
-        .catch((error) => {
-          console.error(error);
-          toast.error('Phone number does not exists!');
-        });
+      const result = response.data;
+      if (!result.success) {
+        toast.error(result.message || 'Login failed');
+        return;
+      }
+
+      toast.success('Redirect to verifycation!');
+      setTimeout(() => {
+        navigate(`/${result.url}`);
+      }, 1000);
     } catch (error) {
       console.error(error.message);
       toast.error('Error!');
@@ -68,10 +62,11 @@ const SignIn = () => {
         <div className="flex flex-col gap-6 mt-6 max-w-1/2 mx-auto">
           <Input
             type="text"
-            name="phoneNumber"
+            name="phone"
             required
             placeholder="Your Phone Number"
             className="py-3 px-6"
+            value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
           <Button type="submit" text="Sign In" secondary />

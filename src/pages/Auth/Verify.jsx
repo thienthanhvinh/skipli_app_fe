@@ -14,7 +14,7 @@ const Verify = () => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate('/dashboard');
+    navigate('/home');
   };
 
   const handleSignIn = async (e) => {
@@ -34,27 +34,33 @@ const Verify = () => {
         }
       );
 
-      if (res.data.success === false) {
+      if (!res.data.success) {
         toast.error(res.data.message);
         return;
       }
 
-      const token = res.data.data;
+      const { token, user } = res.data.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
       toast.success(res.data.message);
 
-      if (res.data.url === 'dashboard') {
+      if (res.data.url === 'home') {
         setTimeout(() => {
           handleRedirect();
         }, 2000);
       }
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      if (error.response) {
+        toast.error(error.response.data.message || 'Có lỗi xảy ra, vui lòng thử lại');
+      } else {
+        console.error(error);
+        toast.error('Có lỗi xảy ra, vui lòng thử lại.');
+      }
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="mt-10">
       <ToastContainer
